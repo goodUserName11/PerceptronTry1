@@ -114,6 +114,9 @@ namespace YetAnotherPerceptron
                     });
 
                     totalError = CalculateTotalError(outputs, teacherOutputs, randomInput);
+                    //Console.WriteLine($"error: {totalError}");
+
+
                     HandleOutputLayer(randomInput, teacherOutputs);
                     HandleHiddenLayers(randomInput, teacherOutputs);
 
@@ -143,11 +146,9 @@ namespace YetAnotherPerceptron
 
             outputs.ForEach(output =>
             {
-                var error = Math.Pow(output - _teacherOutputs[row][outputs.IndexOf(output)], 2);
+                var error = 0.5 * Math.Pow(_teacherOutputs[row][outputs.IndexOf(output)] - output, 2);
                 totalError += error;
             });
-
-            //Console.WriteLine($"error: {totalError}");
 
             return totalError;
         }
@@ -174,12 +175,14 @@ namespace YetAnotherPerceptron
                     // t
                     var expectedOutput = teacherOutpust[row][Layers.Last().NeuronList.IndexOf(neuron)];
 
-                    var derivate = neuron.CalculateDerivate(netInput);
+                    //var derivate = neuron.CalculateDerivate(netInput) * (expectedOutput - output);
+                    var derivate = (expectedOutput - output) * output * (1 - output);
 
                     //                          все-таки наоборот
                     // дельта вес = x * производная * (y-t) (альфа спряталась в другом замке)
                     //                                (t-y) - правильно
-                    var delta = netInput * derivate * (expectedOutput - output);
+                    //var delta = netInput * derivate * (expectedOutput - output);
+                    var delta = /*-1 **/ netInput * derivate /** (expectedOutput - output)*/;
 
                     //                            а вот и альфа
                     connection.UpdateWeight(delta, _learningRate);
@@ -228,14 +231,18 @@ namespace YetAnotherPerceptron
                                 // Сигма = производная * (t-y)
                                 //                       (t-y) - правильно
 
-                                sumPartial += outConnection.PreviousWeight * outputNeuron.PreviousDerivate * (expectedOutput - output);
+                                sumPartial += outConnection.PreviousWeight * outputNeuron.PreviousDerivate/* * (expectedOutput - output)*/;
                             });
                         });
 
                         // дельта вес = x * производная * Сумма (сигм * веса) (альфа спряталась в другом замке)
-                        var delta = netInput * derivate * sumPartial;
+                        //var delta = netInput * derivate * sumPartial;
+                        var delta = /*-1 **/ netInput * sumPartial * output * (1 - output);
                         //                             а вот же она
                         connection.UpdateWeight(delta, _learningRate);
+
+                        neuron.PreviousDerivate = derivate;
+                        neuron.PreviousExpectedOutput = expectedOutput;
                     });
                 });
             }
