@@ -107,6 +107,7 @@ namespace YetAnotherPerceptron
             return outputs;
         }
 
+
         ///// <summary>
         ///// Данные для обучения (входы и выходы)
         ///// </summary>
