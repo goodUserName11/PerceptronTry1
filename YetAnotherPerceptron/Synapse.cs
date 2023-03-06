@@ -36,7 +36,7 @@ namespace YetAnotherPerceptron
 
         public void UpdateWeight(double delta, double learningRate)
         {
-            PreviousWeight += Weight;
+            PreviousWeight = Weight;
             Weight += delta * learningRate;
         }
 
