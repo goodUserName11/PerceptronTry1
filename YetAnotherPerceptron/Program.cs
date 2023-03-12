@@ -22,10 +22,10 @@ namespace YetAnotherPerceptron
             string inputFilePath = @"C:\Users\scorp\OneDrive\Рабочий стол\inputs.txt";
             string outputFilePath = @"C:\Users\scorp\OneDrive\Рабочий стол\outputs.txt";
 
-            var teacherInputs = NetworkStatic.GetTeacherDataFromTxtFile(inputFilePath);
-            var teacherOutputs = NetworkStatic.GetTeacherDataFromTxtFile(outputFilePath);
+            var teacherInputs = NetworkStatics.GetTeacherDataFromTxtFile(inputFilePath);
+            var teacherOutputs = NetworkStatics.GetTeacherDataFromTxtFile(outputFilePath);
 
-            var network = NetworkStatic.CreateAndFillNetwork(teacherInputs, teacherOutputs, 0.8,
+            var network = NetworkStatics.CreateAndFillNetwork(teacherInputs, teacherOutputs, 0.8,
                 // Слои
                 3,
                 //Кол-во нейронов на слоях

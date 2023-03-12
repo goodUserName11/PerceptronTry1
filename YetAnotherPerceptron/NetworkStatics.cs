@@ -9,7 +9,7 @@ namespace YetAnotherPerceptron
     /// Статические методы для работы с нейросетью
     /// (В том числе создает ее за вас)
     /// </summary>
-    public static class NetworkStatic
+    public static class NetworkStatics
     {
         /// <summary>
         /// Создать и заполнить сеть
