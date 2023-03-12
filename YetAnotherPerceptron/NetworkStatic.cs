@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 
 namespace YetAnotherPerceptron
 {
     /// <summary>
-    /// Работник нейросети
-    /// (Создает ее за вас)
+    /// Статические методы для работы с нейросетью
+    /// (В том числе создает ее за вас)
     /// </summary>
-    internal static class NetworkStatic
+    public static class NetworkStatic
     {
         /// <summary>
         /// Создать и заполнить сеть
@@ -32,7 +34,7 @@ namespace YetAnotherPerceptron
             // Потому что первый отдали в конструкторе, поэтому с единицы
             for (int i = 1; i < numberOfNeurons.Length; i++)
             {
-                network.AddLayer(LayerCreator.CreateNeuralLayer(numberOfNeurons[i], new SigmoidActivationFunction()));
+                network.AddLayer(StaticLayerCreator.CreateNeuralLayer(numberOfNeurons[i], new SigmoidActivationFunction()));
             }
 
             //network.Train(100);
@@ -41,6 +43,30 @@ namespace YetAnotherPerceptron
             //var outputs = network.GetOutput();
 
             return network;
+        }
+
+        /// <summary>
+        /// Получает данные учительской выборки (входы или выходы) из текстового файла
+        /// </summary>
+        /// <param name="dataFilePath">Путь к файлу с данными</param>
+        /// <param name="separator">Разделитель значений</param>
+        /// <param name="culture">
+        /// Культура разделителя целой и десятичной части 
+        /// (по умолчанию точка)
+        /// </param>
+        /// <returns>Список массивов (входный или выходных) значений</returns>
+        public static List<double[]> GetTeacherDataFromTxtFile(string dataFilePath, char separator = ',', string culture = "en-us")
+        {
+            var valuesArrayList = new List<double[]>();
+
+            var valuesStrings = File.ReadAllLines(dataFilePath);
+
+            for (int i = 0; i < valuesStrings.Length; i++)
+            {
+                valuesArrayList.Add(StaticHelpers.StringToDoubleValues(valuesStrings[i]));
+            }
+
+            return valuesArrayList;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace YetAnotherPerceptron
     ///         <item>Передавать функцию активации из вне</item>
     ///     </list>
     /// </remarks>
-    internal class NeuralNetwork
+    public class NeuralNetwork
     {
         /// <summary>
         /// Альфа
@@ -131,7 +131,7 @@ namespace YetAnotherPerceptron
         /// </summary>
         private void CreateInputLayer(int numberOfInputNeurons)
         {
-            var inputLayer = LayerCreator.CreateNeuralLayer(numberOfInputNeurons, new SigmoidActivationFunction());
+            var inputLayer = StaticLayerCreator.CreateNeuralLayer(numberOfInputNeurons, new SigmoidActivationFunction());
             inputLayer.NeuronList.ForEach(x => x.AddInputSynapse(0));
             AddLayer(inputLayer);
         }
