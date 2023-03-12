@@ -7,7 +7,7 @@ namespace YetAnotherPerceptron
     /// <summary>
     /// Создает слои
     /// </summary>
-    internal static class LayerCreator
+    internal static class StaticLayerCreator
     {
         /// <summary>
         /// Создать слой
