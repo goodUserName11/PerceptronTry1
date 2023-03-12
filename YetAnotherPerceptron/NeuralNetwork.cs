@@ -32,7 +32,7 @@ namespace YetAnotherPerceptron
         /// </summary>
         private List<double[]> _teacherOutputs;
 
-        public List<NeuralLayer> Layers { get; private set; }
+        internal List<NeuralLayer> Layers { get; private set; }
 
         public NeuralNetwork(int numberOfInputNeurons,
                              double learningRate,
@@ -54,7 +54,7 @@ namespace YetAnotherPerceptron
         /// Добавляет новый слой
         /// </summary>
         /// <param name="newLayer"></param>
-        public void AddLayer(NeuralLayer newLayer)
+        internal void AddLayer(NeuralLayer newLayer)
         {
             if (Layers.Count > 0)
             {
