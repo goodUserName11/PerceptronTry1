@@ -19,8 +19,28 @@ namespace YetAnotherPerceptron
         {
             Console.WriteLine("Hello NeuroWorld!");
 
-            string inputFilePath = @"C:\Users\scorp\OneDrive\Рабочий стол\inputs.txt";
-            string outputFilePath = @"C:\Users\scorp\OneDrive\Рабочий стол\outputs.txt";
+            //string inputFilePath = @"C:\Users\scorp\OneDrive\Рабочий стол\inputs.txt";
+            //string outputFilePath = @"C:\Users\scorp\OneDrive\Рабочий стол\outputs.txt";            
+            string inputFilePath;
+            string outputFilePath;
+            int numberOfEpoches;
+
+            if (args.Length == 2) 
+            { 
+                inputFilePath = args[0];
+                outputFilePath = args[1];
+            }
+            else
+            {
+                Console.WriteLine("Введите путь для файла с входными данными обучающей выборки");
+                inputFilePath = Console.ReadLine();
+                
+                Console.WriteLine("Введите путь для файла с результатами обучающей выборки");
+                outputFilePath = Console.ReadLine();
+            }
+
+            Console.WriteLine("Введите кол-во эпох");
+            int.TryParse(Console.ReadLine(), out numberOfEpoches);
 
             var teacherInputs = NetworkStatics.GetTeacherDataFromTxtFile(inputFilePath);
             var teacherOutputs = NetworkStatics.GetTeacherDataFromTxtFile(outputFilePath);
@@ -31,12 +51,12 @@ namespace YetAnotherPerceptron
                 //Кол-во нейронов на слоях
                 teacherInputs[0].Length, 3, teacherOutputs[0].Length);
 
-            Console.WriteLine("Настало время хака!");
+            Console.WriteLine("Обучение...");
             network.Train(1000);
 
             while (true)
             {
-                Console.WriteLine("Вводи, товарищ!");
+                Console.WriteLine("Вводите входные данные");
                 Console.WriteLine("(Чтобы выйти бросьте пустой строкой)");
                 
                 var inputString = Console.ReadLine();
@@ -45,20 +65,25 @@ namespace YetAnotherPerceptron
 
                 var input = StaticHelpers.StringToDoubleValues(inputString);
 
-                //var input = new double[] { 6.7, 3.1, 4.4, 1.4 };
-
                 network.PushInputValues(input);
                 var outputs = network.GetOutput();
 
-                foreach (var output in outputs)
-                {
-                    Console.WriteLine(output);
-                }
+                Print(outputs);
             }
 
-
             Console.WriteLine("OK");
-            //Console.ReadLine();
+        }
+
+        /// <summary>
+        /// Печать листа в консоли
+        /// </summary>
+        /// <param name="dataList">Лист, который нужно напечатать</param>
+        static void Print(List<double> dataList)
+        {
+            foreach (var value in dataList)
+            {
+                Console.WriteLine(value);
+            }
         }
     }
 }
