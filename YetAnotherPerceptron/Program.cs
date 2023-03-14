@@ -52,7 +52,7 @@ namespace YetAnotherPerceptron
                 teacherInputs[0].Length, 3, teacherOutputs[0].Length);
 
             Console.WriteLine("Обучение...");
-            network.Train(1000);
+            network.Train(numberOfEpoches);
 
             while (true)
             {

@@ -63,7 +63,7 @@ namespace YetAnotherPerceptron
 
             for (int i = 0; i < valuesStrings.Length; i++)
             {
-                valuesArrayList.Add(StaticHelpers.StringToDoubleValues(valuesStrings[i]));
+                valuesArrayList.Add(StaticHelpers.StringToDoubleValues(valuesStrings[i], separator, culture));
             }
 
             return valuesArrayList;

@@ -25,7 +25,7 @@ namespace YetAnotherPerceptron
 
             foreach (var stringValue in stringValues)
             {
-                values.Add(double.Parse(stringValue, new CultureInfo(separator)));
+                values.Add(double.Parse(stringValue, new CultureInfo(culture)));
             }
 
             return values.ToArray();
