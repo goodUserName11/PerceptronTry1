@@ -5,15 +5,8 @@ using System.Linq;
 namespace YetAnotherPerceptron
 {
     /// <summary>
-    /// 
+    /// Нейронная сеть
     /// </summary>
-    /// <remarks>
-    ///     <listheader>TODO:</listheader>
-    ///     <list type="number">
-    ///         <item>Добавить список и обработку тестового множества</item>
-    ///         <item>Передавать функцию активации из вне</item>
-    ///     </list>
-    /// </remarks>
     public class NeuralNetwork
     {
         /// <summary>
@@ -159,7 +152,6 @@ namespace YetAnotherPerceptron
         /// <summary>
         /// Вспомогательная, запускает алгоритм обратного обучения для выходного слоя сети
         /// (обратного распространения ошибки)
-        /// ???
         /// </summary>
         /// <param name="row">
         /// Номер значения из массива ожидаемых сначений
@@ -178,20 +170,20 @@ namespace YetAnotherPerceptron
                     // t
                     var expectedOutput = teacherOutpust[row][Layers.Last().NeuronList.IndexOf(neuron)];
 
-                    //var derivate = neuron.CalculateDerivate(netInput) * (expectedOutput - output);
+                    // "производная" =          (t- y)       * производная (сигмоиды)  
                     var derivate = (expectedOutput - output) * output * (1 - output);
 
                     //                          все-таки наоборот
                     // дельта вес = x * производная * (y-t) (альфа спряталась в другом замке)
                     //                                (t-y) - правильно
-                    //var delta = netInput * derivate * (expectedOutput - output);
-                    var delta = /*-1 **/ netInput * derivate /** (expectedOutput - output)*/;
+                    // (дельта вес)    ((t- y) * производная)
+                    // изменение веса = x * "производная"
+                    var delta = netInput * derivate;
 
                     //                            а вот и альфа
                     connection.UpdateWeight(delta, _learningRate);
 
                     neuron.PreviousDerivate = derivate;
-                    neuron.PreviousExpectedOutput = expectedOutput;
                 });
             });
         }
@@ -199,7 +191,6 @@ namespace YetAnotherPerceptron
         /// <summary>
         /// Вспомогательная, запускает алгоритм обратного обучения для скрытого слоя сети
         /// (обратного распространения ошибки)
-        /// ???
         /// </summary>
         private void HandleHiddenLayers(int row, List<double[]> teacherOutpust)
         {
@@ -213,9 +204,6 @@ namespace YetAnotherPerceptron
                         var output = neuron.CalculateOutput();
                         // x
                         var netInput = connection.GetOutput();
-
-                        // t
-                        var expectedOutput = neuron.PreviousExpectedOutput;
 
                         var derivate = neuron.CalculateDerivate(netInput);
 
@@ -234,18 +222,21 @@ namespace YetAnotherPerceptron
                                 // Сигма = производная * (t-y)
                                 //                       (t-y) - правильно
 
-                                sumPartial += outConnection.PreviousWeight * outputNeuron.PreviousDerivate/* * (expectedOutput - output)*/;
+                                //                                        (t- y) * производная
+                                //                        вес              * "производная"
+                                sumPartial += outConnection.PreviousWeight * outputNeuron.PreviousDerivate;
                             });
                         });
 
+                        // (изменение веса)
                         // дельта вес = x * производная * Сумма (сигм * веса) (альфа спряталась в другом замке)
-                        //var delta = netInput * derivate * sumPartial;
-                        var delta = /*-1 **/ netInput * sumPartial * output * (1 - output);
+                        //               * Сумма (сигм * веса) *
+                        // дельта вес = x    *            * производная (сигмоиды)
+                        var delta = netInput * sumPartial * output * (1 - output);
                         //                             а вот же она
                         connection.UpdateWeight(delta, _learningRate);
 
                         neuron.PreviousDerivate = derivate;
-                        neuron.PreviousExpectedOutput = expectedOutput;
                     });
                 });
             }

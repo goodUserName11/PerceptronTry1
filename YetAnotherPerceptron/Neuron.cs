@@ -22,11 +22,9 @@ namespace YetAnotherPerceptron
 
         /// <summary>
         /// Производная с прошлой итерации
+        /// ("производная" = (t- y) * производная)
         /// </summary>
         public double PreviousDerivate { get; set; }
-
-        //!!!!!!!!!!!!!!
-        public double PreviousExpectedOutput { get; set; }
 
         /// <summary>
         /// Вход нейрона (для обучения)

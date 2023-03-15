@@ -6,14 +6,8 @@ using System.Text;
 namespace YetAnotherPerceptron
 {
     /// <summary>
-    /// 
+    /// Слой сети
     /// </summary>
-    /// <remarks>
-    ///     <listheader>TODO:</listheader>
-    ///     <list type="number">
-    ///         <item>Додумать слои (возмодно все)</item>
-    ///     </list>
-    /// </remarks>
     internal class NeuralLayer
     {
         public List<Neuron> NeuronList {  get; private set; }

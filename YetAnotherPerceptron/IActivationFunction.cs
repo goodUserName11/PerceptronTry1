@@ -13,9 +13,9 @@ namespace YetAnotherPerceptron
         /// <returns></returns>
         double CalculateOutput(double input);
 
-        //Возможно стоит добавить производную
+        //Возможно стоит добавить производную (очень возможно, но не нужно)
         /// <summary>
-        /// Вычислить производную
+        /// Вычислить производную (Оказалось нафиг не нужным)
         /// </summary>
         /// <param name="input">Икс</param>
         /// <returns></returns>

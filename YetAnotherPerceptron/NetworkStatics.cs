@@ -37,11 +37,6 @@ namespace YetAnotherPerceptron
                 network.AddLayer(StaticLayerCreator.CreateNeuralLayer(numberOfNeurons[i], new SigmoidActivationFunction()));
             }
 
-            //network.Train(100);
-
-            //network.PushInputValues(new double[] { 1054, 54, 1 });
-            //var outputs = network.GetOutput();
-
             return network;
         }
 

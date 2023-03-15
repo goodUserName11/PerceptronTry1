@@ -45,7 +45,7 @@ namespace YetAnotherPerceptron
             var teacherInputs = NetworkStatics.GetTeacherDataFromTxtFile(inputFilePath);
             var teacherOutputs = NetworkStatics.GetTeacherDataFromTxtFile(outputFilePath);
 
-            var network = NetworkStatics.CreateAndFillNetwork(teacherInputs, teacherOutputs, 0.8,
+            var network = NetworkStatics.CreateAndFillNetwork(teacherInputs, teacherOutputs, 0.4,
                 // Слои
                 3,
                 //Кол-во нейронов на слоях
