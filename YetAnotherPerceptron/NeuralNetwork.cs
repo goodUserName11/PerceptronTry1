@@ -99,6 +99,7 @@ namespace YetAnotherPerceptron
             {
                 teacherInputs = _teacherInputs.ToList();
                 teacherOutputs = _teacherOutputs.ToList();
+                totalError = 0;
 
                 while (teacherInputs.Count > 0) 
                 {
@@ -113,7 +114,7 @@ namespace YetAnotherPerceptron
                         outputs.Add(x.CalculateOutput());
                     });
 
-                    totalError = CalculateTotalError(outputs, teacherOutputs, randomInput);
+                    totalError += CalculateCurrentError(outputs, teacherOutputs, randomInput);
                     //Console.WriteLine($"error: {totalError}");
 
 
@@ -123,6 +124,8 @@ namespace YetAnotherPerceptron
                     teacherInputs.RemoveAt(randomInput);
                     teacherOutputs.RemoveAt(randomInput);
                 }
+
+                Console.WriteLine($"{i + 1}. error: {totalError / _teacherInputs.Count}");
             }
         }
 
@@ -137,20 +140,20 @@ namespace YetAnotherPerceptron
         }
 
         /// <summary>
-        /// Вспомогательная, считает ошибку сети
+        /// Вспомогательная, считает ошибку сети (для текущей пары входных/выходных данных)
         /// (Считаем ошибку, складывая ошибки со всех выходных нейронов)
         /// </summary>
-        private double CalculateTotalError(List<double> outputs, List<double[]> teacherOutputs, int row)
+        private double CalculateCurrentError(List<double> outputs, List<double[]> teacherOutputs, int row)
         {
-            double totalError = 0;
+            double currError = 0;
 
             outputs.ForEach(output =>
             {
-                var error = 0.5 * Math.Pow(_teacherOutputs[row][outputs.IndexOf(output)] - output, 2);
-                totalError += error;
+                var error = Math.Pow(teacherOutputs[row][outputs.IndexOf(output)] - output, 2);
+                currError += error;
             });
 
-            return totalError;
+            return currError;
         }
 
         /// <summary>
