@@ -59,7 +59,7 @@ namespace YetAnotherPerceptron
         {
             var valuesArrayList = new List<double[]>();
 
-            var valuesStrings = File.ReadAllLines(dataFilePath);
+            var valuesStrings = File.ReadAllLines(dataFilePath.Trim('"'));
 
             for (int i = 0; i < valuesStrings.Length; i++)
             {
